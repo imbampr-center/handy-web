@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop - HandyWash</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            min-height: 100vh;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #0284c7 100%);
+            padding: 1rem 5%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateX(-5px);
+        }
+
+        .logo {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+        }
+
+        nav a:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 5%;
+        }
+
+        .page-title {
+            text-align: center;
+            color: #1e3a8a;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .page-subtitle {
+            text-align: center;
+            color: #475569;
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Location Selector */
+        .location-selector {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .location-selector h3 {
+            color: #1e3a8a;
+            margin-bottom: 1rem;
+        }
+
+        .location-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .location-btn {
+            padding: 0.75rem 2rem;
+            border: 2px solid #0284c7;
+            background: white;
+            color: #0284c7;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .location-btn.active {
+            background: #0284c7;
+            color: white;
+        }
+
+        .location-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        }
+
+        /* Products Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, #0284c7 0%, #0ea5e9 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-title {
+            color: #1e3a8a;
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .product-details {
+            color: #475569;
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        .product-details p {
+            margin-bottom: 0.5rem;
+        }
+
+        .price-section {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .price {
+            font-size: 1.8rem;
+            color: #1e3a8a;
+            font-weight: bold;
+        }
+
+        .mrp {
+            text-decoration: line-through;
+            color: #94a3b8;
+            font-size: 1rem;
+            margin-left: 0.5rem;
+        }
+
+        .discount {
+            display: inline-block;
+            background: #10b981;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-left: 0.5rem;
+        }
+
+        .note {
+            font-size: 0.85rem;
+            color: #64748b;
+            font-style: italic;
+            margin-top: 0.5rem;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 0.85rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        .btn-cart {
+            background: white;
+            color: #0284c7;
+            border: 2px solid #0284c7;
+        }
+
+        .btn-cart:hover {
+            background: #0284c7;
+            color: white;
+        }
+
+        .btn-buy {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+
+        .btn-buy:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
+        }
+
+        /* Cart Notification */
+        .cart-notification {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #10b981;
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            display: none;
+            animation: slideIn 0.3s ease-out;
+            z-index: 2000;
+        }
+
+        .cart-notification.show {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .product-actions {
+                flex-direction: column;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="back-btn">← Back to Home</a>
+            <div class="logo">HandyWash</div>
+            <nav>
+                <a href="about.html">About</a>
+                <a href="cart.html">Cart</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h1 class="page-title">Shop HandyWash Products</h1>
+        <p class="page-subtitle">Choose your perfect laundry companion</p>
+
+        <!-- Location Selector -->
+        <div class="location-selector">
+            <h3>Select Your Location for Pricing</h3>
+            <div class="location-buttons">
+                <button class="location-btn active" data-location="kerala">Kerala</button>
+                <button class="location-btn" data-location="other">Other States</button>
+            </div>
+        </div>
+            <!-- Product 1: Wall-Mounted -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="handywall.png" alt="Wall-Mounted" style="width:100%; height:100%; object-fit:contain;">
+                </div>
+                <div class="product-info">
+                    <h2 class="product-title">HandyWash Wall-Mounted Foldable</h2>
+                    <div class="product-details">
+                        <p><strong>Size:</strong> 40×40 cm</p>
+                        <p><strong>Features:</strong> Wall-mounted, foldable design</p>
+                        <p><strong>Ideal for:</strong> Permanent home installation</p>
+                    </div>
+                    <div class="price-section">
+                        <span class="price kerala-price">₹2200</span>
+                        <span class="price other-price" style="display:none;">₹2300</span>
+                        <span class="mrp">₹2750</span>
+                        <span class="discount">Save 20%</span>
+                        <p class="note">Includes transportation and parcel charges.</p>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn btn-cart" onclick="addToCart('wallmount', 'HandyWash Wall-Mounted Foldable', '40×40 cm')">Add to Cart</button>
+                        <button class="btn btn-buy" onclick="buyNow('wallmount', 'HandyWash Wall-Mounted Foldable', '40×40 cm')">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 2: Portable Small -->
+            <div class="product-card">
+                <div class="product-image">
+                <img src="handy30.png" alt="Travel" style="width:100%; height:100%; object-fit:contain;">
+                </div>
+                <div class="product-info">
+                    <h2 class="product-title">HandyWash Portable 30×30 cm</h2>
+                    <div class="product-details">
+                        <p><strong>Size:</strong> 30×30 cm</p>
+                        <p><strong>Features:</strong> Compact, portable design</p>
+                        <p><strong>Ideal for:</strong> Travel, students, hostels</p>
+                    </div>
+                    <div class="price-section">
+                        <span class="price kerala-price">₹700</span>
+                        <span class="price other-price" style="display:none;">₹750</span>
+                        <span class="mrp">₹999</span>
+                        <span class="discount">Save 30%</span>
+                        <p class="note">Includes transportation and parcel charges.</p>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn btn-cart" onclick="addToCart('portable_small', 'HandyWash Portable 30×30 cm', '30×30 cm')">Add to Cart</button>
+                        <button class="btn btn-buy" onclick="buyNow('portable_small', 'HandyWash Portable 30×30 cm', '30×30 cm')">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 3: Portable Large -->
+            <div class="product-card">
+                <div class="product-image">
+                <img src="handy40.png" alt="Travel" style="width:100%; height:100%; object-fit:contain;">
+                </div>
+                <div class="product-info">
+                    <h2 class="product-title">HandyWash Portable 40×40 cm</h2>
+                    <div class="product-details">
+                        <p><strong>Size:</strong> 40×40 cm</p>
+                        <p><strong>Features:</strong> Large portable design</p>
+                        <p><strong>Ideal for:</strong> Families, long trips</p>
+                    </div>
+                    <div class="price-section">
+                        <span class="price kerala-price">₹950</span>
+                        <span class="price other-price" style="display:none;">₹1000</span>
+                        <span class="mrp">₹1400</span>
+                        <span class="discount">Save 32%</span>
+                        <p class="note">Includes transportation and parcel charges.</p>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn btn-cart" onclick="addToCart('portable_large', 'HandyWash Portable 40×40 cm', '40×40 cm')">Add to Cart</button>
+                        <button class="btn btn-buy" onclick="buyNow('portable_large', 'HandyWash Portable 40×40 cm', '40×40 cm')">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+    <!-- Cart Notification -->
+    <div class="cart-notification" id="cartNotification">
+        ✓ Added to cart successfully!
+    </div>
+
+    <script>
+        // Location selector
+        const locationButtons = document.querySelectorAll('.location-btn');
+        let selectedLocation = 'kerala';
+
+        locationButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                locationButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                selectedLocation = btn.dataset.location;
+                updatePrices();
+            });
+        });
+
+        function updatePrices() {
+            const keralaPrices = document.querySelectorAll('.kerala-price');
+            const otherPrices = document.querySelectorAll('.other-price');
+
+            if (selectedLocation === 'kerala') {
+                keralaPrices.forEach(p => p.style.display = 'inline');
+                otherPrices.forEach(p => p.style.display = 'none');
+            } else {
+                keralaPrices.forEach(p => p.style.display = 'none');
+                otherPrices.forEach(p => p.style.display = 'inline');
+            }
+        }
+
+        // Product prices
+        const productPrices = {
+            wallmount: { kerala: 2200, other: 2300 },
+            portable_small: { kerala: 700, other: 750 },
+            portable_large: { kerala: 950, other: 1000 }
+        };
+
+        // Add to Cart function
+        function addToCart(productId, productName, size) {
+            const price = productPrices[productId][selectedLocation];
+            const product = {
+                id: productId,
+                name: productName,
+                size: size,
+                price: price,
+                location: selectedLocation
+            };
+
+            // Get existing cart or create new one
+            let cart = JSON.parse(localStorage.getItem('handywash_cart') || '[]');
+            
+            // Check if product already exists in cart
+            const existingIndex = cart.findIndex(item => item.id === productId);
+            if (existingIndex > -1) {
+                cart[existingIndex].quantity = (cart[existingIndex].quantity || 1) + 1;
+            } else {
+                product.quantity = 1;
+                cart.push(product);
+            }
+
+            // Save to localStorage
+            localStorage.setItem('handywash_cart', JSON.stringify(cart));
+
+            // Show notification
+            const notification = document.getElementById('cartNotification');
+            notification.classList.add('show');
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 2000);
+        }
+
+        // Buy Now function - WhatsApp integration
+        function buyNow(productId, productName, size) {
+            const price = productPrices[productId][selectedLocation];
+            const whatsappNumber = '+918943339137'; // Replace with your WhatsApp number
+            const message = `Hello, I'm interested in buying HandyWash: ${productName} (${size}, ₹${price}).`;
+            const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+            
+            window.open(whatsappUrl, '_blank');
+        }
+    </script>
+</body>
+</html>
